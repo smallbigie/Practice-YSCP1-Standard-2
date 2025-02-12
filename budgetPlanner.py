@@ -13,8 +13,67 @@ def main():
         print("1) Add an expense")
         print("2) View budget summary")
         print("3) Exit")
+        
+        user_choice = input("Enter your choice: ")
+        
+        if user_choice == "1":
+            add_expense(expenses)
+        elif user_choice == "2":
+            display_summary(monthly_income, expenses)
+        elif user_choice == "3":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice. Try again.")
 
-    user_choice = input("")
+def get_monthly_income():
+    while True:
+        try:
+            monthly_income = float(input("Enter your monthly income: "))
+            if monthly_income >= 0:
+                return monthly_income
+            else:
+                print("Invalid input. Please enter a non-negative number.")
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+def add_expense(expenses):
+    category = input("Enter expense category: ")
+    
+    while True:
+        try:
+            amount = float(input("Enter expense amount: "))
+            if amount >= 0:
+                expenses[category] = expenses.get(category, 0) + amount
+                print("Expense added.")
+                break
+            else:
+                print("Invalid expense amount. Try again.")
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+def display_summary(monthly_income, expenses):
+    total_expenses = sum(expenses.values())
+    remaining_budget = monthly_income - total_expenses
+    
+    print("\nBudget Summary:")
+    print(f"Total Monthly Income: ${monthly_income:.2f}")
+    print("Expenses:")
+    
+    if expenses:
+        for category, amount in expenses.items():
+            percentage = (amount / monthly_income) * 100 if monthly_income > 0 else 0
+            print(f"{category}: ${amount:.2f} ({percentage:.2f}%)")
+    else:
+        print("No expenses recorded.")
+    
+    print(f"Total Expenses: ${total_expenses:.2f}")
+    print(f"Remaining Budget: ${remaining_budget:.2f}")
+
+if __name__ == "__main__":
+    main()
+
+
 
 
 """
